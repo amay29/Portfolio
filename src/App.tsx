@@ -6,8 +6,12 @@ import Projects from './components/Projects';
 import Socials from './components/Socials';
 import CustomCursor from './components/CustomCursor';
 import StarBackground from './components/ParticleBackground';
+import { Preloader } from './components/Preloader';
+import { useState } from 'react';
 
 function App() {
+  const [introFinished, setIntroFinished] = useState(false);
+
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -22,6 +26,9 @@ function App() {
   return (
     <>
       <CustomCursor />
+      
+      {!introFinished && <Preloader onComplete={() => setIntroFinished(true)} />}
+
       <StarBackground />
 
       <motion.div

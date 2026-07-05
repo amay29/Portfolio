@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
+import Magnetic from './Magnetic';
 
 const Socials: React.FC = () => {
   const socials = [
@@ -28,32 +29,35 @@ const Socials: React.FC = () => {
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '60px' }}>
           {socials.map((social, index) => (
-            <motion.a
-              key={index}
-              href={social.link}
-              className="glass-card"
-              style={{ width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', borderRadius: '50%' }}
-              whileHover={{ y: -5, scale: 1.1, background: 'var(--accent-blue)', color: '#fff' }}
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              title={social.name}
-            >
-              {social.icon}
-            </motion.a>
+            <Magnetic key={index}>
+              <motion.a
+                href={social.link}
+                className="glass-card"
+                style={{ width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', borderRadius: '50%' }}
+                whileHover={{ y: -5, scale: 1.1, background: 'var(--accent-blue)', color: '#fff' }}
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                title={social.name}
+              >
+                {social.icon}
+              </motion.a>
+            </Magnetic>
           ))}
         </div>
 
-        <motion.a
-          href="mailto:hello@example.com"
-          className="btn btn-primary"
-          style={{ padding: '15px 40px', fontSize: '1.2rem' }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Mail size={20} /> Say Hello
-        </motion.a>
+        <Magnetic>
+          <motion.a 
+            href="mailto:hello@example.com"
+            className="btn btn-primary"
+            style={{ padding: '15px 40px', fontSize: '1.2rem', display: 'inline-flex' }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Mail size={20} style={{ marginRight: '8px' }} /> Say Hello
+          </motion.a>
+        </Magnetic>
       </motion.div>
     </section>
   );
