@@ -1,15 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import Magnetic from './Magnetic';
 
 const Socials: React.FC = () => {
   const socials = [
-    { icon: <FaGithub size={24} />, link: '#', name: 'GitHub' },
-    { icon: <FaLinkedin size={24} />, link: '#', name: 'LinkedIn' },
-    { icon: <FaTwitter size={24} />, link: '#', name: 'Twitter' },
-    { icon: <FaInstagram size={24} />, link: '#', name: 'Instagram' }
+    { icon: <FaGithub size={24} />, link: 'https://github.com/amay29', name: 'GitHub' },
+    { icon: <FaLinkedin size={24} />, link: 'https://www.linkedin.com/in/damar-alam-65b577397?utm_source=share_via&utm_content=profile&utm_medium=member_android', name: 'LinkedIn' },
+    { icon: <FaInstagram size={24} />, link: 'https://www.instagram.com/_dmramy_/', name: 'Instagram' }
   ];
 
   return (

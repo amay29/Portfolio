@@ -9,10 +9,10 @@ import project2Pic from '../assets/project_2.png';
 const Projects: React.FC = () => {
   const projects = [
     {
-      title: 'Astra Analytics Dashboard',
-      desc: 'A premium web dashboard with complex data visualization, glassmorphism, and dark theme UI.',
+      title: 'Tirta Asri Hub',
+      desc: 'A web-based neighborhood (RT) community management platform designed to digitize monthly residency fees, ensure financial cash flow transparency, and streamline administrative services efficiently and securely.',
       image: project1Pic,
-      tags: ['React', 'TypeScript', 'Chart.js', 'Framer Motion'],
+      tags: ['Next.js', 'API Routes', 'jose', 'PostgreSQL', 'Prisma ORM'],
       demo: '#',
       github: '#'
     },

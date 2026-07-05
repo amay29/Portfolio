@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 const StarBackground: React.FC = () => {
-  // Generate a fixed number of stars to be lightweight
   const stars = useMemo(() => {
     return Array.from({ length: 50 }).map((_, i) => ({
       id: i,
