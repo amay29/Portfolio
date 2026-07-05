@@ -14,7 +14,7 @@ const Projects: React.FC = () => {
       image: project1Pic,
       tags: ['Next.js', 'API Routes', 'jose', 'PostgreSQL', 'Prisma ORM'],
       demo: '#',
-      github: '#'
+      github: 'https://github.com/amay29/tirta-asri'
     },
     {
       title: 'Lumiere E-commerce',
@@ -48,7 +48,7 @@ const Projects: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <div style={{ order: index % 2 === 0 ? 1 : 2, overflow: 'hidden', borderRadius: '16px' }}>
+                <div style={{ order: index % 2 === 0 ? 1 : 2, overflow: 'hidden', borderRadius: '16px', aspectRatio: '16/10', display: 'flex' }}>
                   <img 
                     src={project.image} 
                     alt={project.title} 
