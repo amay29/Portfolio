@@ -42,20 +42,24 @@ const Projects: React.FC = () => {
           {projects.map((project, index) => (
             <Tilt key={index} tiltMaxAngleX={5} tiltMaxAngleY={5} scale={1.02} transitionSpeed={2000}>
               <motion.div
-                className="glass-card"
-                style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', overflow: 'hidden', padding: '30px' }}
+                className="glass-card project-card"
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <div style={{ order: index % 2 === 0 ? 1 : 2, overflow: 'hidden', borderRadius: '16px', aspectRatio: '16/10', display: 'flex' }}>
+                <div 
+                  className={`project-image-container project-image-container-${index % 2 === 0 ? 1 : 2}`}
+                  style={{ order: index % 2 === 0 ? 1 : 2 }}
+                >
                   <img 
                     src={project.image} 
                     alt={project.title} 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }}
                   />
                 </div>
-                <div style={{ order: index % 2 === 0 ? 2 : 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div 
+                  className={`project-text-container-${index % 2 === 0 ? 1 : 2}`}
+                  style={{ order: index % 2 === 0 ? 2 : 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                >
                   <h3 style={{ fontSize: '2rem', marginBottom: '20px' }}>{project.title}</h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '25px' }}>{project.desc}</p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px' }}>
