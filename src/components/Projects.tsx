@@ -1,8 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
-import Tilt from 'react-parallax-tilt';
+import React, { useState, useEffect } from 'react';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import project1Pic from '../assets/project_1.png';
 import project2Pic from '../assets/project_2.png';
 
@@ -10,78 +8,134 @@ const Projects: React.FC = () => {
   const projects = [
     {
       title: 'Tirta Asri Hub',
-      desc: 'A web-based neighborhood (RT) community management platform designed to digitize monthly residency fees, ensure financial cash flow transparency, and streamline administrative services efficiently and securely.',
+      type: 'Community Platform',
       image: project1Pic,
-      tags: ['Next.js', 'API Routes', 'jose', 'PostgreSQL', 'Prisma ORM'],
-      demo: '#',
-      github: 'https://github.com/amay29/tirta-asri'
+      link: 'https://github.com/amay29/tirta-asri'
     },
     {
-      title: 'Lumiere E-commerce',
-      desc: 'A creative and interactive e-commerce platform with neon accents and sleek product displays.',
+      title: 'Lumiere Shop',
+      type: 'E-Commerce System',
       image: project2Pic,
-      tags: ['Next.js', 'Tailwind', 'Stripe', 'Zustand'],
-      demo: '#',
-      github: '#'
+      link: '#'
     }
   ];
 
-  return (
-    <section id="projects" className="section-container">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-      >
-        <h2 style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <span className="gradient-text">Featured Projects</span>
-        </h2>
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  
+  // Mouse tracking for image reveal
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '60px' }}>
-          {projects.map((project, index) => (
-            <Tilt key={index} tiltMaxAngleX={5} tiltMaxAngleY={5} scale={1.02} transitionSpeed={2000}>
-              <motion.div
-                className="glass-card project-card"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                <div 
-                  className={`project-image-container project-image-container-${index % 2 === 0 ? 1 : 2}`}
-                  style={{ order: index % 2 === 0 ? 1 : 2 }}
-                >
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                  />
-                </div>
-                <div 
-                  className={`project-text-container-${index % 2 === 0 ? 1 : 2}`}
-                  style={{ order: index % 2 === 0 ? 2 : 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
-                >
-                  <h3 style={{ fontSize: '2rem', marginBottom: '20px' }}>{project.title}</h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '25px' }}>{project.desc}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px' }}>
-                    {project.tags.map(tag => (
-                      <span key={tag} style={{ background: 'rgba(0, 229, 255, 0.1)', color: 'var(--accent-cyan)', padding: '6px 12px', borderRadius: '20px', fontSize: '0.9rem' }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div style={{ display: 'flex', gap: '16px' }}>
-                    <a href={project.demo} className="btn btn-primary" style={{ flex: 1 }}>
-                      <ExternalLink size={18} /> Live Demo
-                    </a>
-                    <a href={project.github} className="btn btn-outline" style={{ flex: 1 }}>
-                      <FaGithub size={18} /> Source Code
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            </Tilt>
+  const springConfig = { damping: 25, stiffness: 200, mass: 0.5 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  return (
+    <section id="projects" className="section-container border-t">
+      <div style={{ marginBottom: '60px' }}>
+        <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
+          Selected Works
+        </h2>
+      </div>
+
+      <div style={{ borderTop: '2px solid var(--text-primary)' }}>
+        {projects.map((project, index) => (
+          <a 
+            key={index} 
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              padding: '40px 0',
+              borderBottom: '2px solid var(--text-primary)',
+              textDecoration: 'none',
+              color: 'var(--text-primary)',
+              position: 'relative'
+            }}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            <motion.div 
+              style={{ display: 'flex', flexDirection: 'column' }}
+              animate={{ x: hoveredIndex === index ? 20 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h3 style={{ 
+                fontSize: 'clamp(2rem, 4vw, 4rem)', 
+                margin: 0, 
+                textTransform: 'uppercase', 
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 800,
+                color: hoveredIndex === index ? 'var(--accent-primary)' : 'var(--text-primary)',
+                textShadow: hoveredIndex === index ? '1px 1px 0 var(--text-primary), -1px -1px 0 var(--text-primary), 1px -1px 0 var(--text-primary), -1px 1px 0 var(--text-primary)' : 'none'
+              }}>
+                {project.title}
+              </h3>
+              <span style={{ fontSize: '1rem', textTransform: 'uppercase', fontWeight: 500 }}>
+                {project.type}
+              </span>
+            </motion.div>
+            
+            <motion.div
+              animate={{ rotate: hoveredIndex === index ? 45 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ArrowUpRight size={48} strokeWidth={1.5} />
+            </motion.div>
+          </a>
+        ))}
+      </div>
+
+      {/* Hover Image Reveal Container */}
+      <motion.div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          pointerEvents: 'none',
+          x: smoothX,
+          y: smoothY,
+          translateX: '-50%',
+          translateY: '-50%',
+          zIndex: 90,
+          width: '350px',
+          height: '250px',
+          overflow: 'hidden',
+          opacity: hoveredIndex !== null ? 1 : 0,
+          scale: hoveredIndex !== null ? 1 : 0.8,
+          boxShadow: '10px 10px 0 var(--text-primary)',
+          border: '2px solid var(--text-primary)',
+          background: 'var(--bg-primary)'
+        }}
+        transition={{ opacity: { duration: 0.2 }, scale: { duration: 0.3 } }}
+      >
+        <motion.div 
+          style={{ width: '100%', height: '100%', position: 'relative' }}
+          animate={{ y: hoveredIndex !== null ? `-${hoveredIndex * 100}%` : 0 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+        >
+          {projects.map((project, idx) => (
+            <img 
+              key={idx}
+              src={project.image} 
+              alt={project.title}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );
