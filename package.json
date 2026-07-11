@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/playfair-display": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.10",
     "framer-motion": "^12.42.1",
     "lucide-react": "^1.22.0",
     "react": "^19.2.7",

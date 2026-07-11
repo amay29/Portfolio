@@ -5,13 +5,8 @@ import AboutMe from './components/AboutMe';
 import Projects from './components/Projects';
 import Socials from './components/Socials';
 import CustomCursor from './components/CustomCursor';
-import StarBackground from './components/ParticleBackground';
-import { Preloader } from './components/Preloader';
-import { useState } from 'react';
 
 function App() {
-  const [introFinished, setIntroFinished] = useState(false);
-
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -19,92 +14,73 @@ function App() {
     restDelta: 0.001
   });
 
-  const techStack = [
-    "REACT", "TYPESCRIPT", "FRAMER MOTION", "UI/UX DESIGN", "NODE.JS", "VITE", "TAILWIND", "NEXT.JS"
-  ];
-
   return (
     <>
       <CustomCursor />
-      
-      {!introFinished && <Preloader onComplete={() => setIntroFinished(true)} />}
 
-      <StarBackground />
-
+      {/* Progress Bar */}
       <motion.div
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
-          height: '4px',
-          background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-purple))',
+          height: '6px',
+          background: 'var(--accent-primary)',
           transformOrigin: '0%',
           scaleX,
           zIndex: 1000
         }}
       />
 
-      <div className="bg-blobs">
-        <div className="blob blob-1"></div>
-        <div className="blob blob-2"></div>
-        <div className="blob blob-3"></div>
-      </div>
-
+      {/* Brutalist Navigation */}
       <nav style={{ 
         position: 'fixed', 
         top: 0, 
         left: 0, 
         right: 0, 
-        padding: '20px 40px', 
+        padding: '24px 5%', 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center',
-        background: 'rgba(6, 11, 25, 0.7)',
-        backdropFilter: 'blur(10px)',
+        background: 'var(--bg-primary)',
         zIndex: 100,
-        borderBottom: '1px solid var(--glass-border)'
+        borderBottom: '2px solid var(--text-primary)'
       }}>
-        <div style={{ fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--accent-cyan)' }}>MyPortfolio</div>
-        <div style={{ display: 'flex', gap: '24px' }}>
-          <a href="#about" style={{ fontWeight: 500 }}>About</a>
-          <a href="#projects" style={{ fontWeight: 500 }}>Projects</a>
-          <a href="#contact" style={{ fontWeight: 500 }}>Contact</a>
+        <div style={{ fontFamily: 'var(--font-serif)', fontWeight: 900, fontSize: '1.8rem', letterSpacing: '-0.02em' }}>
+          DAMAR.
+        </div>
+        <div style={{ display: 'flex', gap: '32px', fontFamily: 'var(--font-sans)', fontWeight: 600, textTransform: 'uppercase', fontSize: '0.9rem' }}>
+          <a href="#about" style={{ color: 'var(--text-primary)' }}>About</a>
+          <a href="#projects" style={{ color: 'var(--text-primary)' }}>Projects</a>
+          <a href="#contact" style={{ color: 'var(--text-primary)' }}>Contact</a>
         </div>
       </nav>
 
       <main>
         <Hero />
-        
-        <div style={{ padding: '40px 0', background: 'rgba(10, 17, 40, 0.4)', borderTop: '1px solid var(--glass-border)', borderBottom: '1px solid var(--glass-border)', transform: 'rotate(-2deg) scale(1.05)', margin: '40px 0', zIndex: 10, position: 'relative', overflow: 'hidden', display: 'flex', whiteSpace: 'nowrap' }}>
-          <div className="marquee-content" style={{ display: 'flex', animation: 'scroll 20s linear infinite' }}>
-            {[...techStack, ...techStack, ...techStack].map((tech, index) => (
-              <div key={index} style={{ 
-                margin: '0 40px', 
-                fontSize: '2.5rem', 
-                fontWeight: 800, 
-                color: 'rgba(255, 255, 255, 0.05)',
-                WebkitTextStroke: '1px rgba(0, 229, 255, 0.3)'
-              }}>
-                {tech}
-              </div>
-            ))}
-          </div>
-        </div>
-
         <AboutMe />
         <Projects />
         <Socials />
       </main>
       
+      {/* Editorial Footer */}
       <footer style={{ 
-        textAlign: 'center', 
-        padding: '30px', 
-        borderTop: '1px solid var(--glass-border)',
-        color: 'var(--text-secondary)',
-        marginTop: '60px'
+        padding: '60px 5%', 
+        borderTop: '2px solid var(--text-primary)',
+        background: 'var(--text-primary)',
+        color: 'var(--bg-primary)'
       }}>
-        <p>© {new Date().getFullYear()} My Interactive Portfolio. Built with React & Framer Motion.</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '40px' }}>
+          <div>
+            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '3rem', color: 'var(--bg-primary)', marginBottom: '0' }}>Let's build something.</h2>
+            <p style={{ fontFamily: 'var(--font-sans)', opacity: 0.7, marginTop: '10px' }}>Based in Indonesia. Available globally.</p>
+          </div>
+          <div style={{ textAlign: 'right', fontFamily: 'var(--font-sans)', fontSize: '0.9rem' }}>
+            <p>© {new Date().getFullYear()} Damar Alam.</p>
+            <p style={{ opacity: 0.5 }}>Designed with precision.</p>
+          </div>
+        </div>
       </footer>
     </>
   );
