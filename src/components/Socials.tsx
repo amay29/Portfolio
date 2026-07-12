@@ -1,63 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
-import Magnetic from './Magnetic';
 
 const Socials: React.FC = () => {
-  const socials = [
-    { icon: <FaGithub size={24} />, link: 'https://github.com/amay29', name: 'GitHub' },
-    { icon: <FaLinkedin size={24} />, link: 'https://www.linkedin.com/in/damar-alam-65b577397?utm_source=share_via&utm_content=profile&utm_medium=member_android', name: 'LinkedIn' },
-    { icon: <FaInstagram size={24} />, link: 'https://www.instagram.com/_dmramy_/', name: 'Instagram' }
+  const [copied, setCopied] = useState(false);
+  const email = 'hello@damar.dev';
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const links = [
+    { name: 'GitHub', url: 'https://github.com/amay29' },
+    { name: 'LinkedIn', url: 'https://linkedin.com' },
+    { name: 'Instagram', url: 'https://instagram.com' },
+    { name: 'Twitter', url: 'https://twitter.com' }
   ];
 
   return (
-    <section id="contact" className="section-container" style={{ textAlign: 'center', paddingBottom: '40px' }}>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        <h2 style={{ marginBottom: '20px' }}>
-          <span className="gradient-text">Let's Connect</span>
+    <section id="contact" className="section-container border-t">
+      <div style={{ paddingBottom: '60px' }}>
+        <h2 style={{ fontSize: 'clamp(3rem, 8vw, 6rem)', lineHeight: 0.9, textTransform: 'uppercase', marginBottom: '40px', letterSpacing: '-0.03em' }}>
+          Let's Work <br />
+          <span style={{ color: 'var(--accent-primary)', textShadow: '2px 2px 0 var(--text-primary), -1px -1px 0 var(--text-primary), 1px -1px 0 var(--text-primary), -1px 1px 0 var(--text-primary), 1px 1px 0 var(--text-primary)' }}>
+            Together
+          </span>
         </h2>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '40px', fontSize: '1.1rem' }}>
-          Feel free to reach out for collaborations or just a friendly hello!
-        </p>
-
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '60px' }}>
-          {socials.map((social, index) => (
-            <Magnetic key={index}>
-              <motion.a
-                href={social.link}
-                className="glass-card"
-                style={{ width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', borderRadius: '50%' }}
-                whileHover={{ y: -5, scale: 1.1, background: 'var(--accent-blue)', color: '#fff' }}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                title={social.name}
-              >
-                {social.icon}
-              </motion.a>
-            </Magnetic>
-          ))}
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '60px', marginTop: '60px' }}>
+          <div>
+            <h3 style={{ fontFamily: 'var(--font-sans)', textTransform: 'uppercase', fontSize: '1rem', marginBottom: '20px', fontWeight: 600 }}>Start a conversation</h3>
+            <a 
+              href={`mailto:${email}`}
+              onClick={handleCopy}
+              style={{ 
+                fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', 
+                fontWeight: 600, 
+                color: 'var(--text-primary)', 
+                textDecoration: 'none',
+                borderBottom: '2px solid var(--text-primary)',
+                display: 'inline-block',
+                position: 'relative'
+              }}
+            >
+              {copied ? 'EMAIL COPIED!' : email}
+            </a>
+            <p style={{ marginTop: '20px', color: 'var(--text-secondary)' }}>Click to copy email address.</p>
+          </div>
+          
+          <div>
+            <h3 style={{ fontFamily: 'var(--font-sans)', textTransform: 'uppercase', fontSize: '1rem', marginBottom: '20px', fontWeight: 600 }}>Socials</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {links.map((link, i) => (
+                <motion.a 
+                  key={i}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ 
+                    fontSize: '1.5rem', 
+                    color: 'var(--text-primary)', 
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px'
+                  }}
+                  whileHover={{ x: 10, color: 'var(--accent-secondary)' }}
+                >
+                  <span style={{ fontSize: '1rem' }}>↗</span> {link.name}
+                </motion.a>
+              ))}
+            </div>
+          </div>
         </div>
-
-        <Magnetic>
-          <motion.a 
-            href="mailto:hello@example.com"
-            className="btn btn-primary"
-            style={{ padding: '15px 40px', fontSize: '1.2rem', display: 'inline-flex' }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Mail size={20} style={{ marginRight: '8px' }} /> Say Hello
-          </motion.a>
-        </Magnetic>
-      </motion.div>
+      </div>
     </section>
   );
 };
