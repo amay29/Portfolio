@@ -5,9 +5,9 @@ const CustomCursor: React.FC = () => {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   
-  const springConfig = { damping: 25, stiffness: 300, restDelta: 0.001 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const smoothX = useSpring(cursorX, springConfig);
+  const smoothY = useSpring(cursorY, springConfig);
 
   const [isHovering, setIsHovering] = useState(false);
 
@@ -19,10 +19,12 @@ const CustomCursor: React.FC = () => {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName.toLowerCase() === 'a' || 
-          target.tagName.toLowerCase() === 'button' ||
-          target.closest('a') ||
-          target.closest('button')) {
+      if (
+        target.tagName.toLowerCase() === 'a' || 
+        target.tagName.toLowerCase() === 'button' ||
+        target.closest('a') ||
+        target.closest('button')
+      ) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
@@ -39,45 +41,35 @@ const CustomCursor: React.FC = () => {
   }, [cursorX, cursorY]);
 
   return (
-    <>
-      <motion.div
-        style={{
-          position: 'fixed',
-          top: -4,
-          left: -4,
-          width: 8,
-          height: 8,
-          backgroundColor: 'var(--accent-cyan)',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 9999,
-          boxShadow: '0 0 10px var(--accent-cyan), 0 0 20px var(--accent-cyan)',
-          x: cursorX,
-          y: cursorY,
-          scale: isHovering ? 0 : 1
-        }}
-        transition={{ type: 'tween', ease: 'backOut', duration: 0.1 }}
-      />
-      <motion.div
-        style={{
-          position: 'fixed',
-          top: -20,
-          left: -20,
-          width: 40,
-          height: 40,
-          border: '2px solid var(--accent-cyan)',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 9998,
-          mixBlendMode: 'screen',
-          backgroundColor: isHovering ? 'rgba(0, 229, 255, 0.1)' : 'transparent',
-          x: cursorXSpring,
-          y: cursorYSpring,
-          scale: isHovering ? 1.5 : 1
-        }}
-        transition={{ type: 'tween', ease: 'easeOut', duration: 0.2 }}
-      />
-    </>
+    <motion.div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: 20,
+        height: 20,
+        backgroundColor: 'var(--accent-primary)',
+        borderRadius: '50%',
+        pointerEvents: 'none',
+        zIndex: 9999,
+        mixBlendMode: 'difference',
+        x: smoothX,
+        y: smoothY,
+        translateX: '-50%',
+        translateY: '-50%',
+        scale: isHovering ? 3 : 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'var(--text-primary)',
+        fontFamily: 'var(--font-sans)',
+        fontSize: '4px',
+        fontWeight: 'bold'
+      }}
+      transition={{ scale: { type: 'spring', stiffness: 300, damping: 20 } }}
+    >
+      {isHovering && <span style={{ mixBlendMode: 'normal' }}>↗</span>}
+    </motion.div>
   );
 };
 
